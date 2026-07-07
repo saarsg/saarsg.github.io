@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saar Shoshan — Digital Marketing</title>
+<meta name="description" content="Saar Shoshan — digital marketing specialist based in Israel. Google Ads search campaigns, including volunteer Google Ad Grants management for a nonprofit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --base: #05020d;
+    --base-2: #0a0613;
+    --surface: #100a1f;
+    --ink: #f4f1fb;
+    --muted: #a99fc4;
+    --accent: #c9a8ff;
+    --accent-press: #dcc6ff;
+    --line: rgba(255,255,255,.08);
+    --brand: linear-gradient(100deg, #e0489f 0%, #9d5cf0 50%, #6a48b0 100%);
+    --hero-bg: linear-gradient(133deg, #050210 0%, #130a26 24%, #3c2570 46%, #1c1038 62%, #0a0518 82%, #040109 100%);
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Archivo", system-ui, sans-serif;
+    --content: 720px;
+    --wide: 1080px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--base);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-press); text-decoration: underline; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.12; letter-spacing: -0.01em; }
+
+  .wrap { max-width: var(--wide); margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 2.5rem); }
+  .col { max-width: var(--content); }
+
+  /* Hero */
+  .hero {
+    background: var(--hero-bg);
+    border-bottom: 1px solid var(--line);
+    padding: clamp(4.5rem, 12vh, 8rem) 0 clamp(3.5rem, 9vh, 6rem);
+  }
+  .eyebrow {
+    font-size: .82rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1.4rem;
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 7vw, 4.8rem);
+    margin: 0 0 1.2rem;
+  }
+  .hero h1 .grad {
+    background: var(--brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .lede {
+    font-size: clamp(1.15rem, 2.4vw, 1.4rem);
+    color: var(--muted);
+    max-width: 40ch;
+    margin: 0 0 2rem;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem 1.4rem;
+    font-size: .95rem;
+    color: var(--muted);
+  }
+  .meta span { display: inline-flex; align-items: center; gap: .5rem; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+
+  /* Sections */
+  section { padding: clamp(3.5rem, 8vh, 5.5rem) 0; border-bottom: 1px solid var(--line); }
+  .kicker {
+    font-size: .78rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+    font-weight: 600;
+  }
+  section h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 0 0 1.4rem; }
+  section p { margin: 0 0 1.1rem; }
+  section p:last-child { margin-bottom: 0; }
+  strong { color: var(--ink); font-weight: 600; }
+
+  /* Services list */
+  .services { list-style: none; margin: 1.8rem 0 0; padding: 0; display: grid; gap: 1.5rem; }
+  @media (min-width: 640px) { .services { grid-template-columns: 1fr 1fr; gap: 1.8rem 2.4rem; } }
+  .services li { border-top: 1px solid var(--line); padding-top: 1.1rem; }
+  .services h3 { font-size: 1.15rem; margin: 0 0 .5rem; color: var(--ink); }
+  .services p { font-size: .98rem; color: var(--muted); margin: 0; }
+
+  /* Projects */
+  .project {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: clamp(1.5rem, 4vw, 2rem);
+    background: var(--base-2);
+  }
+  .project h3 { font-size: 1.35rem; margin: 0 0 .3rem; }
+  .project .tag { font-size: .8rem; color: var(--accent); letter-spacing: .04em; }
+  .project p { color: var(--muted); font-size: .98rem; margin: .9rem 0 1.2rem; }
+  .project .links { display: flex; gap: 1.4rem; font-size: .92rem; }
+
+  /* Contact */
+  .contact .col { }
+  .contact-links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 1.6rem; font-size: 1.05rem; }
+  .contact-links a { display: inline-flex; align-items: center; gap: .55rem; }
+
+  footer { padding: 2.5rem 0 3rem; color: var(--muted); font-size: .85rem; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
+
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="col">
+        <p class="eyebrow">Digital Marketing</p>
+        <h1>Saar Shoshan — <span class="grad">search campaigns that hold up under scrutiny.</span></h1>
+        <p class="lede">I plan and run Google Ads search campaigns, with a focus on measurable performance and clean, compliant accounts.</p>
+        <div class="meta">
+          <span><span class="dot"></span>Digital marketing specialist</span>
+          <span><span class="dot"></span>Based in Israel</span>
+          <span><span class="dot"></span>Google Ads &amp; Ad Grants</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="work">
+      <div class="wrap">
+        <div class="col">
+          <p class="kicker">What I do</p>
+          <h2>Running and reporting on search campaigns</h2>
+          <p>My work is digital marketing, mainly Google Ads search campaigns — building the account structure, choosing keywords, writing ads, and reading the performance data to keep improving what runs.</p>
+          <p>A current focus is <strong>Google Ad Grants</strong>, the free search-advertising program Google offers eligible nonprofits. I manage the Ad Grants search account of a nonprofit on a volunteer basis. The program comes with strict rules — a 5% clickthrough-rate floor, keyword and quality-score minimums, and conversion-based bidding. Keeping an account inside those rules means watching the numbers closely: clickthrough rate, conversions, quality scores, search terms, and impression share.</p>
+          <p>To do that well I rely on <strong>reporting straight from the Google Ads API</strong>, using Google's own official, read-only tooling to pull the metrics that show whether an account is healthy and compliant. The reporting is read-only — it reads performance data, it doesn't change campaigns.</p>
+        </div>
+        <ul class="services">
+          <li>
+            <h3>Google Ads search</h3>
+            <p>Account structure, keywords, ad copy, and ongoing optimization against real performance data.</p>
+          </li>
+          <li>
+            <h3>Ad Grants</h3>
+            <p>Running a nonprofit's free search account within the program's compliance rules.</p>
+          </li>
+          <li>
+            <h3>Performance reporting</h3>
+            <p>Reading account data — CTR, conversions, quality score, search terms — to guide decisions.</p>
+          </li>
+          <li>
+            <h3>Practical tooling</h3>
+            <p>Using and building small tools that make the day-to-day work faster and cleaner.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="wrap">
+        <div class="col">
+          <p class="kicker">Projects</p>
+          <h2>Things I've built</h2>
+        </div>
+        <div class="col" style="margin-top:1.8rem">
+          <div class="project">
+            <span class="tag">Chrome extension · open source</span>
+            <h3>Mark Clipper</h3>
+            <p>A browser extension that captures a web page or a selection as clean Markdown, edits it locally, and hands it to an AI assistant. No accounts, no servers, no tracking — everything is assembled on your own machine. Published and open source.</p>
+            <div class="links">
+              <a href="https://github.com/saarsg/mark-clipper" rel="noopener">Source on GitHub →</a>
+              <a href="https://saarsg.github.io/mark-clipper/" rel="noopener">Project page →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="wrap">
+        <div class="col">
+          <p class="kicker">Contact</p>
+          <h2>Get in touch</h2>
+          <p>Questions, opportunities, or anything about the projects here — I'm open to work.</p>
+          <div class="contact-links">
+            <a href="mailto:saarshoshan24@gmail.com">saarshoshan24@gmail.com</a>
+            <a href="https://www.linkedin.com/in/saar-shoshan-17724b27b/" rel="noopener">LinkedIn →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Saar Shoshan</span>
+      <span>Digital marketing · Israel</span>
+    </div>
+  </footer>
+
+</body>
+</html>
