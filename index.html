@@ -53,8 +53,11 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  a { color: var(--gold); text-decoration: none; }
+  /* text links: gold at rest, brighter + underlined on hover, deeper on press.
+     Buttons opt out of these below (they keep dark text on a gold field). */
+  a { color: var(--gold); text-decoration: none; transition: color .15s ease; }
   a:hover { color: var(--gold-bright); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  a:active { color: var(--gold-deep); }
   a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
   /* body text - one consistent, minimal treatment everywhere.
      Primary body is a soft ink (readable presence); --muted is reserved
@@ -311,12 +314,15 @@
   .cta-line em { font-style: italic; color: var(--gold-bright); }
   .btn {
     display: inline-flex; align-items: center; gap: .6rem;
-    font-family: var(--mono); font-size: .9rem; letter-spacing: .02em;
+    font-family: var(--mono); font-size: .9rem; letter-spacing: .02em; font-weight: 500;
     color: var(--base); background: var(--gold);
     padding: .8rem 1.4rem; border-radius: 3px;
-    transition: background .2s, transform .2s;
+    transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
   }
-  .btn:hover { background: var(--gold-bright); text-decoration: none; transform: translateY(-1px); }
+  /* keep dark text on the gold button through ALL states — override the generic a:hover */
+  .btn:hover, .btn:focus-visible, .btn:active { color: var(--base); text-decoration: none; }
+  .btn:hover { background: var(--gold-bright); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(216,178,106,.16); }
+  .btn:active { background: var(--gold-deep); transform: translateY(0); box-shadow: none; }
   .btn:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; }
   .contact-alt { margin-top: 1.6rem; font-family: var(--mono); font-size: .88rem; color: var(--muted); }
   .contact-alt a { color: var(--gold); }
