@@ -7,7 +7,7 @@
 <meta name="description" content="Saar Shoshan, digital marketing specialist based in Israel. Google Ads search campaigns, performance reporting, and volunteer Google Ad Grants management for a nonprofit.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Spline+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     /* Forest & Sand - grounds */
@@ -33,7 +33,8 @@
 
     --serif: "Newsreader", Georgia, serif;
     --sans: "Spline Sans", system-ui, sans-serif;
-    --mono: "Spline Sans Mono", ui-monospace, monospace;
+    /* "label" role (formerly monospace) — now the clean sans; kills the techy/AI terminal look */
+    --mono: "Spline Sans", system-ui, sans-serif;
 
     /* asymmetric grid: slim left rail + content */
     --rail: 88px;
@@ -95,20 +96,12 @@
     .inner { grid-template-columns: 1fr; gap: 0; }
   }
 
-  /* left rail — a quiet gold tick anchoring each section's headline. No label text. */
+  /* left rail — holds the hero's small site mark only; sections leave it empty
+     (the section headline already names the section — no marker needed). */
   .rail {
     grid-column: 1;
     padding-top: .7rem;
   }
-  .rail .tick {
-    display: block;
-    width: 28px;
-    height: 2px;
-    background: var(--gold);
-    margin-left: auto;      /* sits at the rail's inner edge, near the content */
-    opacity: .85;
-  }
-  /* the hero keeps a small text mark; sections use only the tick */
   .rail .marker {
     font-family: var(--mono);
     font-size: .72rem;
@@ -118,9 +111,9 @@
     display: block;
   }
   @media (max-width: 720px) {
-    .rail { padding-top: 0; margin-bottom: 1rem; }
-    .rail .tick { margin-left: 0; }
-    .rail .marker { text-align: left; }
+    .rail { padding-top: 0; }
+    .rail:empty { display: none; }
+    .rail .marker { text-align: left; margin-bottom: 1rem; }
   }
   .content { grid-column: 2; min-width: 0; }
   @media (max-width: 720px) { .rail, .content { grid-column: 1; } }
@@ -140,7 +133,6 @@
   /* ---------- Hero ---------- */
   .hero {
     background: var(--hero-bg);
-    border-bottom: 1px solid var(--rule);
     padding-top: clamp(4.5rem, 14vh, 9rem);
     padding-bottom: clamp(3.5rem, 10vh, 6.5rem);
   }
@@ -368,7 +360,7 @@
     <!-- ===== WHAT I DO ===== -->
     <section class="band reveal">
       <div class="inner">
-        <div class="rail"><span class="tick"></span></div>
+        <div class="rail"></div>
         <div class="content">
           <h2>Running and reporting on search campaigns</h2>
           <p class="lead-statement">I build search campaigns, then I <em>read the data</em> they produce.</p>
@@ -387,7 +379,7 @@
     <!-- ===== SELECTED WORK - carousel, alt band ===== -->
     <section class="band alt reveal">
       <div class="inner">
-        <div class="rail"><span class="tick"></span></div>
+        <div class="rail"></div>
         <div class="content">
           <h2>Things I've built</h2>
           <div class="carousel" id="carousel">
@@ -472,7 +464,7 @@
     <!-- ===== CONTACT ===== -->
     <section class="band contact reveal">
       <div class="inner">
-        <div class="rail"><span class="tick"></span></div>
+        <div class="rail"></div>
         <div class="content">
           <p class="cta-line">Looking for someone who runs accounts carefully and reads the data honestly? <em>Let's talk.</em></p>
           <a class="btn" href="mailto:saarshoshan24@gmail.com">saarshoshan24@gmail.com</a>
