@@ -105,7 +105,11 @@
     border-radius: 16px;
     background: var(--base-2);
     overflow: hidden;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .25s ease-out, transform .25s ease-out;
   }
+  .fold.in-view { opacity: 1; transform: none; }
   .fold-head {
     width: 100%;
     display: flex;
@@ -142,7 +146,7 @@
   .fold-body {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows .3s ease;
+    transition: grid-template-rows 1s cubic-bezier(.22,.61,.36,1);
   }
   .fold[open-state="open"] .fold-body { grid-template-rows: 1fr; }
   .fold-body-inner { overflow: hidden; }
@@ -152,7 +156,8 @@
   section p:last-child { margin-bottom: 0; }
   strong { color: var(--ink); font-weight: 600; }
   @media (prefers-reduced-motion: reduce) {
-    .fold-body, .chevron { transition: none; }
+    .fold-body, .chevron, .fold { transition: none; }
+    .fold { opacity: 1; transform: none; }
   }
 
   /* Services list */
@@ -206,8 +211,8 @@
   <main>
     <section id="work">
       <div class="wrap">
-        <div class="fold" open-state="open">
-          <button class="fold-head" aria-expanded="true" aria-controls="fold-work">
+        <div class="fold" open-state="closed">
+          <button class="fold-head" aria-expanded="false" aria-controls="fold-work">
             <span class="fold-titles">
               <span class="kicker">What I do</span>
               <h2 class="fold-title">Running and reporting on search campaigns</h2>
@@ -235,8 +240,8 @@
 
     <section id="projects">
       <div class="wrap">
-        <div class="fold" open-state="open">
-          <button class="fold-head" aria-expanded="true" aria-controls="fold-projects">
+        <div class="fold" open-state="closed">
+          <button class="fold-head" aria-expanded="false" aria-controls="fold-projects">
             <span class="fold-titles">
               <span class="kicker">Projects</span>
               <h2 class="fold-title">Things I've built</h2>
@@ -262,8 +267,8 @@
 
     <section id="contact" class="contact">
       <div class="wrap">
-        <div class="fold" open-state="open">
-          <button class="fold-head" aria-expanded="true" aria-controls="fold-contact">
+        <div class="fold" open-state="closed">
+          <button class="fold-head" aria-expanded="false" aria-controls="fold-contact">
             <span class="fold-titles">
               <span class="kicker">Contact</span>
               <h2 class="fold-title">Get in touch</h2>
@@ -287,14 +292,39 @@
   <script>
     (function () {
       var folds = document.querySelectorAll('.fold');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function setOpen(fold, open) {
+        fold.setAttribute('open-state', open ? 'open' : 'closed');
+        fold.querySelector('.fold-head').setAttribute('aria-expanded', String(open));
+      }
+
+      // Click still toggles a card.
       folds.forEach(function (fold) {
-        var btn = fold.querySelector('.fold-head');
-        btn.addEventListener('click', function () {
-          var open = fold.getAttribute('open-state') === 'open';
-          fold.setAttribute('open-state', open ? 'closed' : 'open');
-          btn.setAttribute('aria-expanded', String(!open));
+        fold.querySelector('.fold-head').addEventListener('click', function () {
+          setOpen(fold, fold.getAttribute('open-state') !== 'open');
         });
       });
+
+      // Reduced motion or no observer support: reveal everything open, no animation.
+      if (reduce || !('IntersectionObserver' in window)) {
+        folds.forEach(function (fold) { fold.classList.add('in-view'); setOpen(fold, true); });
+        return;
+      }
+
+      // Unfold each card as it scrolls into view.
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var fold = entry.target;
+          // Reveal and unfold together in the same scroll moment.
+          fold.classList.add('in-view');
+          setOpen(fold, true);
+          io.unobserve(fold);
+        });
+      }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
+
+      folds.forEach(function (fold) { io.observe(fold); });
     })();
   </script>
 
