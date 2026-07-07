@@ -24,6 +24,7 @@
     --sans: "Archivo", system-ui, sans-serif;
     --content: 720px;
     --wide: 1080px;
+    --fold-w: 760px;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -59,10 +60,19 @@
     font-weight: 600;
   }
   .hero h1 {
-    font-size: clamp(2.6rem, 7vw, 4.8rem);
-    margin: 0 0 1.2rem;
+    font-size: clamp(2.8rem, 8vw, 5.4rem);
+    margin: 0 0 .5rem;
   }
-  .hero h1 .grad {
+  .subtitle {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 4vw, 2.6rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.6rem;
+    max-width: 22ch;
+  }
+  .grad {
     background: var(--brand);
     -webkit-background-clip: text;
     background-clip: text;
@@ -84,20 +94,66 @@
   .meta span { display: inline-flex; align-items: center; gap: .5rem; }
   .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
 
-  /* Sections */
-  section { padding: clamp(3.5rem, 8vh, 5.5rem) 0; border-bottom: 1px solid var(--line); }
+  /* Sections — collapsible fold cards */
+  section { border-bottom: 1px solid var(--line); }
+  section .wrap { max-width: var(--fold-w); }
+  .fold {
+    width: 100%;
+    max-width: var(--fold-w);
+    margin: clamp(1.5rem, 4vh, 2.5rem) auto;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--base-2);
+    overflow: hidden;
+  }
+  .fold-head {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    background: none;
+    border: 0;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    padding: clamp(1.4rem, 3.5vw, 2rem);
+    font-family: inherit;
+  }
+  .fold-head:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; border-radius: 16px; }
+  .fold-head:hover .fold-title { color: var(--accent); }
+  .fold-titles { flex: 1; }
   .kicker {
     font-size: .78rem;
     letter-spacing: .16em;
     text-transform: uppercase;
     color: var(--muted);
-    margin: 0 0 1.5rem;
+    margin: 0 0 .6rem;
     font-weight: 600;
   }
-  section h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); margin: 0 0 1.4rem; }
+  .fold-title { font-family: var(--serif); font-weight: 500; font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.12; letter-spacing: -0.01em; margin: 0; transition: color .18s ease; }
+  .chevron {
+    flex: none;
+    width: 1.4rem; height: 1.4rem;
+    align-self: center;
+    color: var(--accent);
+    transition: transform .28s ease;
+  }
+  .fold[open-state="open"] .chevron { transform: rotate(180deg); }
+  .fold-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .3s ease;
+  }
+  .fold[open-state="open"] .fold-body { grid-template-rows: 1fr; }
+  .fold-body-inner { overflow: hidden; }
+  .fold-body-pad { padding: 0 clamp(1.4rem, 3.5vw, 2rem) clamp(1.6rem, 4vw, 2.2rem); }
+  .fold .col { max-width: none; }
   section p { margin: 0 0 1.1rem; }
   section p:last-child { margin-bottom: 0; }
   strong { color: var(--ink); font-weight: 600; }
+  @media (prefers-reduced-motion: reduce) {
+    .fold-body, .chevron { transition: none; }
+  }
 
   /* Services list */
   .services { list-style: none; margin: 1.8rem 0 0; padding: 0; display: grid; gap: 1.5rem; }
@@ -135,7 +191,8 @@
     <div class="wrap">
       <div class="col">
         <p class="eyebrow">Digital Marketing</p>
-        <h1>Saar Shoshan — <span class="grad">search campaigns that hold up under scrutiny.</span></h1>
+        <h1>Saar Shoshan</h1>
+        <p class="subtitle"><span class="grad">Search campaigns that hold up under scrutiny.</span></p>
         <p class="lede">I plan and run Google Ads search campaigns, with a focus on measurable performance and clean, compliant accounts.</p>
         <div class="meta">
           <span><span class="dot"></span>Digital marketing specialist</span>
@@ -149,49 +206,55 @@
   <main>
     <section id="work">
       <div class="wrap">
-        <div class="col">
-          <p class="kicker">What I do</p>
-          <h2>Running and reporting on search campaigns</h2>
-          <p>My work is digital marketing, mainly Google Ads search campaigns — building the account structure, choosing keywords, writing ads, and reading the performance data to keep improving what runs.</p>
-          <p>A current focus is <strong>Google Ad Grants</strong>, the free search-advertising program Google offers eligible nonprofits. I manage the Ad Grants search account of a nonprofit on a volunteer basis. The program comes with strict rules — a 5% clickthrough-rate floor, keyword and quality-score minimums, and conversion-based bidding. Keeping an account inside those rules means watching the numbers closely: clickthrough rate, conversions, quality scores, search terms, and impression share.</p>
-          <p>To do that well I rely on <strong>reporting straight from the Google Ads API</strong>, using Google's own official, read-only tooling to pull the metrics that show whether an account is healthy and compliant. The reporting is read-only — it reads performance data, it doesn't change campaigns.</p>
+        <div class="fold" open-state="open">
+          <button class="fold-head" aria-expanded="true" aria-controls="fold-work">
+            <span class="fold-titles">
+              <span class="kicker">What I do</span>
+              <h2 class="fold-title">Running and reporting on search campaigns</h2>
+            </span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="fold-body" id="fold-work" role="region">
+            <div class="fold-body-inner"><div class="fold-body-pad">
+              <div class="col">
+                <p>My work is digital marketing, mainly Google Ads search campaigns — building the account structure, choosing keywords, writing ads, and reading the performance data to keep improving what runs.</p>
+                <p>A current focus is <strong>Google Ad Grants</strong>, the free search-advertising program Google offers eligible nonprofits. I manage the Ad Grants search account of a nonprofit on a volunteer basis. The program comes with strict rules — a 5% clickthrough-rate floor, keyword and quality-score minimums, and conversion-based bidding. Keeping an account inside those rules means watching the numbers closely: clickthrough rate, conversions, quality scores, search terms, and impression share.</p>
+                <p>To do that well I rely on <strong>reporting straight from the Google Ads API</strong>, using Google's own official, read-only tooling to pull the metrics that show whether an account is healthy and compliant. The reporting is read-only — it reads performance data, it doesn't change campaigns.</p>
+              </div>
+              <ul class="services">
+                <li><h3>Google Ads search</h3><p>Account structure, keywords, ad copy, and ongoing optimization against real performance data.</p></li>
+                <li><h3>Ad Grants</h3><p>Running a nonprofit's free search account within the program's compliance rules.</p></li>
+                <li><h3>Performance reporting</h3><p>Reading account data — CTR, conversions, quality score, search terms — to guide decisions.</p></li>
+                <li><h3>Practical tooling</h3><p>Using and building small tools that make the day-to-day work faster and cleaner.</p></li>
+              </ul>
+            </div></div>
+          </div>
         </div>
-        <ul class="services">
-          <li>
-            <h3>Google Ads search</h3>
-            <p>Account structure, keywords, ad copy, and ongoing optimization against real performance data.</p>
-          </li>
-          <li>
-            <h3>Ad Grants</h3>
-            <p>Running a nonprofit's free search account within the program's compliance rules.</p>
-          </li>
-          <li>
-            <h3>Performance reporting</h3>
-            <p>Reading account data — CTR, conversions, quality score, search terms — to guide decisions.</p>
-          </li>
-          <li>
-            <h3>Practical tooling</h3>
-            <p>Using and building small tools that make the day-to-day work faster and cleaner.</p>
-          </li>
-        </ul>
       </div>
     </section>
 
     <section id="projects">
       <div class="wrap">
-        <div class="col">
-          <p class="kicker">Projects</p>
-          <h2>Things I've built</h2>
-        </div>
-        <div class="col" style="margin-top:1.8rem">
-          <div class="project">
-            <span class="tag">Chrome extension · open source</span>
-            <h3>Mark Clipper</h3>
-            <p>A browser extension that captures a web page or a selection as clean Markdown, edits it locally, and hands it to an AI assistant. No accounts, no servers, no tracking — everything is assembled on your own machine. Published and open source.</p>
-            <div class="links">
-              <a href="https://github.com/saarsg/mark-clipper" rel="noopener">Source on GitHub →</a>
-              <a href="https://saarsg.github.io/mark-clipper/" rel="noopener">Project page →</a>
-            </div>
+        <div class="fold" open-state="open">
+          <button class="fold-head" aria-expanded="true" aria-controls="fold-projects">
+            <span class="fold-titles">
+              <span class="kicker">Projects</span>
+              <h2 class="fold-title">Things I've built</h2>
+            </span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="fold-body" id="fold-projects" role="region">
+            <div class="fold-body-inner"><div class="fold-body-pad">
+              <div class="project">
+                <span class="tag">Chrome extension · open source</span>
+                <h3>Mark Clipper</h3>
+                <p>A browser extension that captures a web page or a selection as clean Markdown, edits it locally, and hands it to an AI assistant. No accounts, no servers, no tracking — everything is assembled on your own machine. Published and open source.</p>
+                <div class="links">
+                  <a href="https://github.com/saarsg/mark-clipper" rel="noopener">Source on GitHub →</a>
+                  <a href="https://saarsg.github.io/mark-clipper/" rel="noopener">Project page →</a>
+                </div>
+              </div>
+            </div></div>
           </div>
         </div>
       </div>
@@ -199,18 +262,41 @@
 
     <section id="contact" class="contact">
       <div class="wrap">
-        <div class="col">
-          <p class="kicker">Contact</p>
-          <h2>Get in touch</h2>
-          <p>Questions, opportunities, or anything about the projects here — I'm open to work.</p>
-          <div class="contact-links">
-            <a href="mailto:saarshoshan24@gmail.com">saarshoshan24@gmail.com</a>
-            <a href="https://www.linkedin.com/in/saar-shoshan-17724b27b/" rel="noopener">LinkedIn →</a>
+        <div class="fold" open-state="open">
+          <button class="fold-head" aria-expanded="true" aria-controls="fold-contact">
+            <span class="fold-titles">
+              <span class="kicker">Contact</span>
+              <h2 class="fold-title">Get in touch</h2>
+            </span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="fold-body" id="fold-contact" role="region">
+            <div class="fold-body-inner"><div class="fold-body-pad">
+              <p>Questions, opportunities, or anything about the projects here — I'm open to work.</p>
+              <div class="contact-links">
+                <a href="mailto:saarshoshan24@gmail.com">saarshoshan24@gmail.com</a>
+                <a href="https://www.linkedin.com/in/saar-shoshan-17724b27b/" rel="noopener">LinkedIn →</a>
+              </div>
+            </div></div>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <script>
+    (function () {
+      var folds = document.querySelectorAll('.fold');
+      folds.forEach(function (fold) {
+        var btn = fold.querySelector('.fold-head');
+        btn.addEventListener('click', function () {
+          var open = fold.getAttribute('open-state') === 'open';
+          fold.setAttribute('open-state', open ? 'closed' : 'open');
+          btn.setAttribute('aria-expanded', String(!open));
+        });
+      });
+    })();
+  </script>
 
   <footer>
     <div class="wrap">
